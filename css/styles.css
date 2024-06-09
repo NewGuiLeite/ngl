@@ -1,0 +1,166 @@
+/* Estilos básicos para ambos os temas */
+body {
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove preenchimentos padrão */
+    font-family: Arial, Helvetica, sans-serif; /* Define a fonte padrão */
+    display: flex; /* Usa flexbox para o layout */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    height: 100vh; /* Define a altura para 100% da altura da tela */
+    background-color: #f2f2f2; /* Define a cor de fundo */
+    transition: background-color 0.3s, color 0.3s; /* Anima mudanças de cor */
+}
+
+.container {
+    display: flex; /* Usa flexbox para o layout */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    height: 100vh; /* Define a altura para 100% da altura da tela */
+}
+
+.login-box {
+    position: relative; /* Define o posicionamento relativo */
+    width: 300px; /* Define a largura da caixa de login */
+    padding: 40px; /* Define o preenchimento interno */
+    box-sizing: border-box; /* Inclui preenchimento e borda no tamanho total */
+    border-radius: 10px; /* Arredonda os cantos */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Anima mudanças de cor e sombra */
+}
+
+.login-box h2 {
+    margin: 0 0 30px; /* Define a margem inferior */
+    padding: 0; /* Remove preenchimento */
+    color: #333; /* Define a cor do texto */
+    text-align: center; /* Centraliza o texto */
+}
+
+.user-box {
+    position: relative; /* Define o posicionamento relativo */
+    margin-bottom: 30px; /* Define a margem inferior */
+}
+
+.user-box input {
+    width: 100%; /* Define a largura para 100% do contêiner */
+    padding: 10px 0; /* Define o preenchimento vertical */
+    font-size: 16px; /* Define o tamanho da fonte */
+    color: #333; /* Define a cor do texto */
+    margin-bottom: 30px; /* Define a margem inferior */
+    border: none; /* Remove a borda padrão */
+    border-bottom: 1px solid #333; /* Adiciona uma borda inferior */
+    outline: none; /* Remove o contorno padrão */
+    background: transparent; /* Define o fundo como transparente */
+}
+
+.user-box label {
+    position: absolute; /* Define o posicionamento absoluto */
+    top: 0; /* Alinha ao topo */
+    left: 0; /* Alinha à esquerda */
+    padding: 10px 0; /* Define o preenchimento vertical */
+    font-size: 16px; /* Define o tamanho da fonte */
+    color: #333; /* Define a cor do texto */
+    pointer-events: none; /* Desativa os eventos de clique */
+    transition: 0.5s; /* Anima as mudanças */
+}
+
+.user-box input:focus ~ label,
+.user-box input:valid ~ label {
+    top: -20px; /* Move o rótulo para cima */
+    left: 0; /* Mantém alinhado à esquerda */
+    color: #03a9f4; /* Muda a cor do rótulo */
+    font-size: 12px; /* Diminui o tamanho da fonte */
+}
+
+button {
+    background: #03a9f4; /* Define a cor de fundo */
+    border: none; /* Remove a borda */
+    padding: 10px 20px; /* Define o preenchimento */
+    border-radius: 5px; /* Arredonda os cantos */
+    color: white; /* Define a cor do texto */
+    cursor: pointer; /* Muda o cursor para pointer */
+    transition: background 0.3s; /* Anima a mudança de cor de fundo */
+}
+
+button:hover {
+    background: #039be5; /* Muda a cor de fundo ao passar o mouse */
+}
+
+.switch {
+    position: relative; /* Define o posicionamento relativo */
+    display: inline-block; /* Define como um bloco em linha */
+    width: 34px; /* Define a largura do interruptor */
+    height: 20px; /* Define a altura do interruptor */
+}
+
+.switch input {
+    opacity: 0; /* Torna o input invisível */
+    width: 0; /* Define a largura como zero */
+    height: 0; /* Define a altura como zero */
+}
+
+.slider {
+    position: absolute; /* Define o posicionamento absoluto */
+    cursor: pointer; /* Muda o cursor para pointer */
+    top: 0; /* Alinha ao topo */
+    left: 0; /* Alinha à esquerda */
+    right: 0; /* Alinha à direita */
+    bottom: 0; /* Alinha à base */
+    background-color: #ccc; /* Define a cor de fundo */
+    transition: 0.4s; /* Anima as mudanças */
+    border-radius: 34px; /* Arredonda os cantos */
+}
+
+.slider:before {
+    position: absolute; /* Define o posicionamento absoluto */
+    content: ""; /* Define o conteúdo vazio */
+    height: 12px; /* Define a altura */
+    width: 12px; /* Define a largura */
+    border-radius: 50%; /* Arredonda os cantos */
+    left: 4px; /* Define o alinhamento à esquerda */
+    bottom: 4px; /* Define o alinhamento à base */
+    background-color: white; /* Define a cor de fundo */
+    transition: 0.4s; /* Anima as mudanças */
+}
+
+input:checked + .slider {
+    background-color: #03a9f4; /* Muda a cor de fundo quando checado */
+}
+
+input:checked + .slider:before {
+    transform: translateX(14px); /* Move o círculo para a direita quando checado */
+}
+
+.toggle-container {
+    display: flex; /* Usa flexbox para o layout */
+    align-items: center; /* Alinha os itens ao centro */
+    margin-top: 20px; /* Define a margem superior */
+}
+
+/* Estilos para o modo escuro */
+body.dark-mode {
+    background-color: #333; /* Define a cor de fundo */
+    color: #fff; /* Define a cor do texto */
+}
+
+body.dark-mode .login-box {
+    background-color: #444; /* Define a cor de fundo da caixa de login */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.8); /* Adiciona uma sombra mais escura */
+}
+
+body.dark-mode .login-box h2 {
+    color: #fff; /* Define a cor do texto */
+}
+
+body.dark-mode .user-box input {
+    color: #fff; /* Define a cor do texto */
+    border-bottom: 1px solid #fff; /* Define a cor da borda inferior */
+}
+
+body.dark-mode .user-box label {
+    color: #fff; /* Define a cor do rótulo */
+}
+
+body.dark-mode .user-box input:focus ~ label,
+body.dark-mode .user-box input:valid ~ label {
+    color: #03a9f4; /* Define a cor do rótulo quando o campo está focado ou válido */
+}
