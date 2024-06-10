@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <style>
+       .error-message {
+    display: none; /* Oculta a mensagem por padrão */
+    color: #0c5460; /* Azul escuro */
+    background-color: #d1ecf1; /* Azul claro */
+    border: 1px solid #bee5eb; /* Azul claro para a borda */
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    margin-top: 10px;
+    max-width: 300px;
+    margin: 10px auto; /* Centraliza a mensagem */
+}
+
+    </style>
 </head>
 <body>
     <div class="container">
@@ -26,19 +43,37 @@
                 <input type="hidden" id="theme" name="theme" value="light">
 
                 <button type="submit">Login</button>
+
+                <p id="error-message" class="error-message"></p>
                 
             </form>
         </div>
     </div>
 
     <script>
-        function toggleThemeMode() {
-            var themeCheckbox = document.getElementById('toggleTheme');
-            var themeInput = document.getElementById('theme');
-            themeInput.value = themeCheckbox.checked ? 'dark' : 'light';
-            document.body.classList.toggle('dark-mode', themeCheckbox.checked);
+        function getParameterByName(name) {
+            const url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
+
+        window.onload = function() {
+            const errorMessage = getParameterByName('error');
+            if (errorMessage) {
+                const errorElement = document.getElementById('error-message');
+                errorElement.innerText = errorMessage;
+                errorElement.style.display = 'block'; // Mostra a mensagem de erro
+            }
+            const username = getParameterByName('username');
+            if (username) {
+                document.getElementById('usuario').value = username;
+            }
+        };
     </script>
-    <script src="../js/scripts.js"></script>
+ 
 </body>
 </html>

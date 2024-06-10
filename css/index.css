@@ -1,17 +1,16 @@
-
 :root{
     font-size: 16px;
     font-family: sans-serif;
     --text-primary: #b6b6b6;
-    --text-secondary: #ececec;
+    --text-secondary: #00aaff;
     --bg-primary: #23232e;
     --bg-secondary: #141418;
-    --transition-speed: 10
+    --transition-speed: 200ms;
 }
 
 body{
     color: black;
-    background: white;
+    background: #28282c;
     margin: 0;
     padding: 0;
 }
@@ -31,12 +30,14 @@ body::-webkit-scrollbar-thumb{
 main {
     margin-left: 5rem;
     padding: 1rem;
+    transition: margin-left var(--transition-speed) ease;
 }
 
 .navbar{
     position: fixed;
     background: var(--bg-primary);
-    transition: width 200ms ease;
+    transition: width var(--transition-speed) ease;
+    z-index: 1000; /* Certifique-se de que o menu esteja acima do conteúdo */
 }
 
 .navbar-nav{
@@ -87,7 +88,7 @@ main {
 }
 
 .fa-primary {
-    color: #ff7eee
+    color: #ff7eee;
 }
 
 .fa-secondary{
@@ -98,7 +99,6 @@ main {
 .fa-secondary{
     transition: var(--transition-speed);
 }
-
 
 .logo{
     font-weight: bold;
@@ -121,36 +121,39 @@ main {
     transform: rotate(-540deg);
 }
 
-
+/* Adjust main margin when navbar is hovered */
+.navbar:hover ~ main {
+    margin-left: 16rem; /* Ajusta conforme necessário */
+}
 
 /* SMALL SCREENS */
-@media only screen and (max-width: 600px){
-    .navbar{
-        bottom: 0;
-        width: 100vw;
-        height: 5rem;
+@media only screen and (max-width: 600px) {
+    .navbar {
+        width: 5rem;
+        height: 100vh;
     }
 
-    .logo{
+    .logo {
         display: none;
     }
 
-    .navbar-nav{
-        flex-direction: row;
+    .navbar-nav {
+        flex-direction: column;
     }
 
-    .nav-link{
+    .nav-link {
         justify-content: center;
     }
 
-    .navbar:hover .link-text{
+    .navbar:hover .link-text {
         display: none;
     }
 
-    main{
-        margin: 0;
+    main {
+        margin-left: 5rem; /* Mantém a margem à esquerda */
     }
 }
+
 
 /* LARGE SCREENS */
 @media only screen and (min-width: 600px){
@@ -169,3 +172,52 @@ main {
         transition: opacity var(--transition-speed);
     }
 }
+
+/* Estilos para o modo escuro */
+body.dark-mode {
+    background-color: #333; /* Define a cor de fundo */
+    color: #fff; /* Define a cor do texto */
+}
+
+body.dark-mode .login-box {
+    background-color: #444; /* Define a cor de fundo da caixa de login */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.8); /* Adiciona uma sombra mais escura */
+}
+
+body.dark-mode .login-box h2 {
+    color: #fff; /* Define a cor do texto */
+}
+
+body.dark-mode .user-box input {
+    color: #fff; /* Define a cor do texto */
+    border-bottom: 1px solid #fff; /* Define a cor da borda inferior */
+}
+
+body.dark-mode .user-box label {
+    color: #fff; /* Define a cor do rótulo */
+}
+
+body.dark-mode .user-box input:focus ~ label,
+body.dark-mode .user-box input:valid ~ label {
+    color: #03a9f4; /* Define a cor do rótulo quando o campo está focado ou válido */
+}
+
+
+
+/* Adicionar estilo para a lista de usuários */
+#user-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    color: #ddd;
+}
+
+#user-list li {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+}
+
+#user-list li:last-child {
+    border-bottom: none;
+}
+

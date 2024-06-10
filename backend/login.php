@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../dbconfig/configbd.php'; // Inclui o arquivo de configuração
 
 // Verificar se o formulário foi submetido
@@ -16,21 +17,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($row) {
         // Verificar a senha
         if (password_verify($senha, $row['senha'])) {
-            echo "<p style='color:green; text-align:center; font-size:25px;'>Login bem-sucedido!</p>";
-            echo "<p style='color:green; text-align:center; font-size:25px;'><a href='../frontend/index.html'>Ir para página inicial</a></p>";
-            
             // Iniciar a sessão e armazenar as informações do usuário, incluindo o tema
-            session_start();
             $_SESSION['username'] = $usuario;
             $_SESSION['theme'] = $theme;
+            header('Location: ../frontend/index.html'); // Redirecionar para a página inicial após login bem-sucedido
         } else {
-            echo "<p style='color:red; text-align:center; font-size:25px;'>Senha incorreta!</p>";
-            echo "<p style='color:red; text-align:center; font-size:25px;'><a href='../frontend/login.html'>Voltar</a></p>";
+            $error_message = urlencode("Senha incorreta!");
+            header('Location: ../frontend/login.html?error=' . $error_message . '&username=' . urlencode($usuario)); // Redirecionar de volta para a página de login
         }
     } else {
-        echo "<p style='color:red; text-align:center; font-size:25px;'>Usuário não encontrado!</p>";
-        echo "<p style='color:red; text-align:center; font-size:25px;'><a href='../frontend/login.html'>Voltar</a></p>";
+        $error_message = urlencode("Usuário não encontrado!");
+        header('Location: ../frontend/login.html?error=' . $error_message . '&username=' . urlencode($usuario)); // Redirecionar de volta para a página de login
     }
+
+    exit();
 }
 
 $conn->close();

@@ -9,3 +9,5 @@ document.getElementById('toggleTheme').addEventListener('change', function() {
 });
 
 //PERTENCE A PARTE DO MODO THEMA DARK.
+
+

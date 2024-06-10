@@ -1,0 +1,141 @@
+/* downloads section starts */
+.download .box-container {
+    display: grid;
+    gap: 2rem; /* Espaço entre as caixas */
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.download .box {
+    border: 2px solid #333; /* Borda escura */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    border-radius: .5rem;
+    text-align: center;
+    padding: 1.5rem; /* Padding dentro das caixas */
+    margin: 1rem; /* Margem ao redor das caixas */
+    background-color: #1a1a1a; /* Fundo escuro */
+    color: #ddd; /* Cor do texto */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transições suaves */
+}
+
+.download .box img {
+    max-width: 100%;
+    height: auto;
+}
+
+.download .box:hover {
+    transform: translateY(-5px); /* Leve elevação ao hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada no hover */
+}
+
+.download .box h3 {
+    font-size: 1.5rem; /* Tamanho da fonte */
+    padding: 0.5rem 0; /* Padding */
+    color: #00aaff; /* Azul para o título */
+    letter-spacing: 1px; /* Espaçamento entre letras */
+}
+
+.download .box p {
+    font-size: 1.2rem; /* Tamanho da fonte */
+    padding-bottom: 1.5rem; /* Padding */
+    color: #bbb; /* Cor do texto */
+}
+
+.download .all-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: #fff; /* Cor do texto */
+    background-color: #333; /* Cor de fundo escura */
+    border: 2px solid #00aaff; /* Borda azul */
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.download .all-btn:hover {
+    background-color: #00aaff; /* Fundo azul no hover */
+    transform: translateY(-3px); /* Leve elevação no hover */
+    color: #333; /* Cor do texto no hover */
+}
+/* downloads section ends */
+
+/* CSS para os botões de Alterar e Excluir */
+#user-table button {
+    padding: 8px 12px;
+    margin-right: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#user-table button:nth-child(1) {
+    background-color: #007bff;
+    color: white;
+}
+
+#user-table button:nth-child(2) {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* CSS para os nomes dos usuários */
+#user-table td:first-child {
+    font-size: 18px;
+    padding: 10px 15px;
+}
+
+/* Espaçamento entre os elementos */
+#user-table th, #user-table td {
+    padding: 10px;
+    text-align: left;
+}
+
+#user-table th {
+    background-color: #f2f2f2;
+}
+
+/* Estilo adicional para a tabela */
+#user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#user-table th, #user-table td {
+    border-bottom: 1px solid #ddd;
+}
+
+#user-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilo adicional para o formulário */
+.user-box label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.user-box input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.all-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.all-btn:hover {
+    background-color: #218838;
+}
+
