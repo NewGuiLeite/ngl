@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
+    <title>Cadastro de Treino</title>
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/download.css">
     <script src="../js/session.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
 </head>
 
 <body>
@@ -68,36 +68,39 @@
         </ul>
     </nav>
 
-
     <main>
         <div class="download">
             <div class="box-container">
                 <div class="box">
-                    <h2 id="form-title">Cadastro de Usuário</h2>
-                    <form id="user-form" action="../backend/usuario.php" method="POST">
-                        <input type="hidden" id="user-id" name="id">
+                    <h2 id="form-title">Cadastro de Treino</h2>
+                    <form id="treino-form" action="../backend/treino.php" method="POST">
+                        <input type="hidden" id="treino-id" name="id">
                         <div class="user-box">
-                            <label for="usuario">Usuário:</label><br>
-                            <input type="text" id="usuario" name="username" required>
+                            <label for="grupo">Grupo:</label><br>
+                            <input type="text" id="grupo" name="grupo" required>
                         </div>
                         <div class="user-box">
-                            <label for="senha">Senha:</label><br>
-                            <input type="password" id="senha" name="senha" required>
+                            <label for="parte">Parte do Corpo:</label><br>
+                            <input type="text" id="parte" name="parte" required>
                         </div>
                         <div class="user-box">
-                            <label for="confirmaSenha">Confirme a Senha:</label><br>
-                            <input type="password" id="confirmaSenha" name="confirmaSenha" required>
+                            <label for="nome">Nome do Exercício:</label><br>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+                        <div class="user-box">
+                            <label for="series">Séries:</label><br>
+                            <input type="number" id="series" name="series" required>
+                        </div>
+                        <div class="user-box">
+                            <label for="repeticao">Repetições:</label><br>
+                            <input type="text" id="repeticao" name="repeticao" required>
+                        </div>
+                        <div class="user-box">
+                            <label for="observacao">Observação:</label><br>
+                            <input type="text" id="observacao" name="observacao">
                         </div><br>
-                        <input type="hidden" id="theme" name="theme" value="light">
                         <input type="hidden" id="form-action" name="action" value="register">
                         <button class="all-btn" type="submit">Cadastrar</button>
-                        <div class="botao"><br>
-                            <label class="switch">
-                                <input type="checkbox" id="toggleTheme" onclick="toggleThemeMode()">
-                                <span class="slider round"></span>
-                            </label>
-                            <span>Dark Mode</span>
-                        </div>
                     </form>
                     
                     <div id="response-message"></div>
@@ -105,45 +108,47 @@
 
                 <div class="box-container">
                     <div class="box">
-                        <h2>Usuários Cadastrados</h2>
-                        <table id="user-table">
+                        <h2>Treinos Cadastrados</h2>
+                        <table id="treino-table">
                             <thead>
                                 <tr>
-                                    <th>Usuário</th>
+                                    <th>Grupo</th>
+                                    <th>Parte</th>
+                                    <th>Nome</th>
+                                    <th>Séries</th>
+                                    <th>Repetições</th>
+                                    <th>Observação</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Lista de usuários será inserida aqui -->
+                                <!-- Lista de treinos será inserida aqui -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            
         </div>
     </main>
 
     <script>
-        function toggleThemeMode() {
-            var themeCheckbox = document.getElementById('toggleTheme');
-            var themeInput = document.getElementById('theme');
-            themeInput.value = themeCheckbox.checked ? 'dark' : 'light';
-            document.body.classList.toggle('dark-mode', themeCheckbox.checked);
-        }
-
-        function loadUsers() {
-            $.get('../backend/usuario.php?action=list', function(data) {
-                var users = JSON.parse(data);
-                var userTable = $('#user-table tbody');
-                userTable.empty();
-                users.forEach(function(user) {
-                    userTable.append(
+        function loadTreinos() {
+            $.get('../backend/treino.php?action=list', function(data) {
+                var treinos = JSON.parse(data);
+                var treinoTable = $('#treino-table tbody');
+                treinoTable.empty();
+                treinos.forEach(function(treino) {
+                    treinoTable.append(
                         '<tr>' +
-                        '<td>' + user.usuario + '</td>' +
+                        '<td>' + treino.grupo + '</td>' +
+                        '<td>' + treino.parte + '</td>' +
+                        '<td>' + treino.nome + '</td>' +
+                        '<td>' + treino.series + '</td>' +
+                        '<td>' + treino.repeticao + '</td>' +
+                        '<td>' + treino.observacao + '</td>' +
                         '<td>' +
-                        '<button onclick="prepareEditUser(' + user.id + ', \'' + user.usuario + '\')">Alterar</button> ' +
-                        '<button onclick="deleteUser(' + user.id + ')">Excluir</button>' +
+                        '<button onclick="prepareEditTreino(' + treino.id + ', \'' + treino.grupo + '\', \'' + treino.parte + '\', \'' + treino.nome + '\', ' + treino.series + ', \'' + treino.repeticao + '\', \'' + treino.observacao + '\')">Alterar</button> ' +
+                        '<button onclick="deleteTreino(' + treino.id + ')">Excluir</button>' +
                         '</td>' +
                         '</tr>'
                     );
@@ -151,58 +156,59 @@
             });
         }
 
-        function prepareEditUser(userId, username) {
-            $('#user-id').val(userId);
-            $('#usuario').val(username);
-            $('#senha').val('');
-            $('#confirmaSenha').val('');
+        function prepareEditTreino(id, grupo, parte, nome, series, repeticao, observacao) {
+            $('#treino-id').val(id);
+            $('#grupo').val(grupo);
+            $('#parte').val(parte);
+            $('#nome').val(nome);
+            $('#series').val(series);
+            $('#repeticao').val(repeticao);
+            $('#observacao').val(observacao);
             $('#form-action').val('edit');
-            $('#form-title').text('Editar Usuário');
+            $('#form-title').text('Editar Treino');
             $('button[type="submit"]').text('Atualizar');
         }
 
-        function deleteUser(userId) {
-            if (confirm('Tem certeza que deseja excluir este usuário?')) {
-                $.post('../backend/usuario.php', {
+        function deleteTreino(id) {
+            if (confirm('Tem certeza que deseja excluir este treino?')) {
+                $.post('../backend/treino.php', {
                     action: 'delete',
-                    id: userId
+                    id: id
                 }, function(response) {
                     var result = JSON.parse(response);
                     $('#response-message').text(result.message).css('color', result.status === 'success' ? 'green' : 'red');
                     if (result.status === 'success') {
-                        loadUsers();
+                        loadTreinos();
                     }
                 });
             }
         }
 
-        $('#user-form').submit(function(event) {
+        $('#treino-form').submit(function(event) {
             event.preventDefault();
-            $.post('../backend/usuario.php', $(this).serialize(), function(response) {
+            $.post('../backend/treino.php', $(this).serialize(), function(response) {
                 var result = JSON.parse(response);
                 $('#response-message').text(result.message).css('color', result.status === 'success' ? 'green' : 'red');
                 if (result.status === 'success') {
-                    loadUsers();
-                    $('#user-form')[0].reset();
+                    loadTreinos();
+                    $('#treino-form')[0].reset();
                     $('#form-action').val('register');
-                    $('#form-title').text('Cadastro de Usuário');
+                    $('#form-title').text('Cadastro de Treino');
                     $('button[type="submit"]').text('Cadastrar');
                 }
             });
         });
 
         $(document).ready(function() {
-            loadUsers();
-            checkUserStatus();
+            loadTreinos();
         });
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            checkUserStatus();
-        });
-    </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        checkUserStatus();
+    });
+</script>
 
-    <script src="../js/scripts.js"></script>
 </body>
 </html>

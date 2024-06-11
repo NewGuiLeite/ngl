@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download</title>
+    <title>Treinos Cadastrados</title>
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/download.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="../js/session.js"></script>
 </head>
-
 <body>
     <nav class="navbar">
         <ul class="navbar-nav">
@@ -66,57 +66,64 @@
         </ul>
     </nav>
 
-    <main class="download">
-        <div class="box-container">
-            <div class="box">
-                <img src="../img/iconedowload.png" alt="logo-Icone-Download">
-                <h3>Instalador Terminal Infomaster</h3>
-                <p>Clique para Baixar</p>
-                <a href="https://drive.google.com/uc?id=1iE4jexPost6SLwZg-lTS0l9315frXSSU" class="all-btn">Baixar</a>
-            </div>
-
-            <div class="box">
-                <img src="../img/iconedowload.png" alt="logo-Icone-Download">
-                <h3>Instalador Servidor Infomaster</h3>
-                <p>Clique para Baixar</p>
-                <a href="https://drive.google.com/uc?id=1NqoTX9OwA7nL8pVzQTVSa2URb3b8I8Rw" class="all-btn">Baixar</a>
-            </div>
-
-            <div class="box">
-                <img src="../img/iconedowload.png" alt="logo-Icone-Download">
-                <h3>Liberação de Terminal Externa Infomaster</h3>
-                <p>Clique para Baixar</p>
-                <a href="https://drive.google.com/uc?id=11W6KjT5JsE3MNFYbHytGnJbM1ulHNX58" class="all-btn">Baixar</a>
-            </div>
-
-            <div class="box">
-                <img src="../img/iconedowload.png" alt="logo-Icone-Download">
-                <h3>Open-Shell 4.4.19.1 Release</h3>
-                <p>Clique para Baixar</p>
-                <a href="https://github.com/Open-Shell/Open-Shell-Menu/releases/download/v4.4.191/OpenShellSetup_4_4_191.exe" class="all-btn">Baixar</a>
-            </div>
-
-            <div class="box">
-                <img src="../img/iconedowload.png" alt="logo-Icone-Download">
-                <h3>WinRAR 6.24 English 32 bit</h3>
-                <p>Clique para Baixar</p>
-                <a href="https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x32-624.exe" class="all-btn">Baixar</a>
-            </div>
-
-            <div class="box">
-                <img src="../img/iconedowload.png" alt="logo-Icone-Download">
-                <h3>WinRAR 6.24 English 64 bit</h3>
-                <p>Clique para Baixar</p>
-                <a href="https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-624.exe" class="all-btn">Baixar</a>
+    <main>
+        <div class="download">
+            <div class="box-container">
+                <div class="box">
+                    <h2>Treinos Cadastrados</h2>
+                    <table id="user-table">
+                        <thead>
+                            <tr>
+                                <th>GRUPO</th>
+                                <th>PARTE</th>
+                                <th>NOME</th>
+                                <th>SÉRIES</th>
+                                <th>REPETIÇÕES</th>
+                                <th>OBSERVAÇÃO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Lista de treinos será inserida aqui -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            checkUserStatus();
+        function loadTreinos() {
+            $.get('../backend/ver_treinos.php', function(data) {
+                var treinos = JSON.parse(data);
+                var treinoTable = $('#user-table tbody');
+                treinoTable.empty();
+                treinos.forEach(function(treino) {
+                    treinoTable.append(
+                        '<tr>' +
+                        '<td>' + treino.grupo + '</td>' +
+                        '<td>' + treino.parte + '</td>' +
+                        '<td>' + treino.nome + '</td>' +
+                        '<td>' + treino.series + '</td>' +
+                        '<td>' + treino.repeticao + '</td>' +
+                        '<td>' + treino.observacao + '</td>' +
+                        '</tr>'
+                    );
+                });
+            });
+        }
+
+        $(document).ready(function() {
+            loadTreinos();
         });
     </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        checkUserStatus();
+    });
+</script>
+
+<script src="../js/scripts.js"></script>
 
 </body>
 </html>

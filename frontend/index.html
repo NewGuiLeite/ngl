@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="../css/index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-
-    </head>
-    <body>
-        
+    <script src="../js/session.js"></script>
+</head>
 <body>
     <nav class="navbar">
         <ul class="navbar-nav">
@@ -20,13 +18,19 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="../frontend/index.html" class="nav-link">
+                    <i class="fas fa-home fa-3x"></i>
+                    <span class="link-text">Início</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="../frontend/index.html" class="nav-link">
                     <i class="fas fa-dollar-sign fa-3x"></i>
                     <span class="link-text">Finanças</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="../frontend/ver_treinos.html" class="nav-link">
                     <i class="fas fa-dumbbell fa-3x"></i>
                     <span class="link-text">Treino</span>
                 </a>
@@ -37,22 +41,38 @@
                     <span class="link-text">Downloads</span>
                 </a>
             </li>
+
             <li class="nav-item">
+                <a href="../frontend/treino.html" class="nav-link">
+                    <i class="fas fa-dumbbell fa-3x"></i>
+                    <span class="link-text">Cad Treino</span>
+                </a>
+            </li>
+
+            <li class="nav-item" id="admin-link" style="display: none;">
                 <a href="../frontend/usuario.html" class="nav-link">
                     <i class="fas fa-users fa-3x"></i>
                     <span class="link-text">Usuários</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="../backend/logout.php" class="nav-link">
+                    <i class="fas fa-sign-out-alt fa-3x"></i>
+                    <span class="link-text">Logout</span>
+                </a>
+            </li>
         </ul>
     </nav>
-    
-        
+
     <main>
-        <h1>
-            Titulo
-        </h1>
-        <p>Conteudo</p>
+        <h1>Bem-Vindo!</h1>
+        <p>Site Em Manutenção!</p>
     </main>
-    
-    </body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserStatus();
+        });
+    </script>
+</body>
 </html>
