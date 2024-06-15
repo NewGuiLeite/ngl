@@ -1,37 +1,45 @@
 <?php
 session_start();
-include '../dbconfig/configbd.php'; // Inclui o arquivo de configuração
 
-// Verificar se o formulário foi submetido
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recuperar os valores do formulário
-    $usuario = $_POST['username'];
-    $senha = $_POST['senha'];
-    $theme = $_POST['theme'];
+// Caminho correto para incluir o arquivo configbd.php
+include(__DIR__ . '/../dbconfig/configbd.php');
 
-    // Verificar se o usuário existe e a senha está correta
-    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario'";
-    $retorno = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($retorno);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = strtolower($_POST['username']); // Convertendo para minúsculas
+    $password = $_POST['senha'];
 
-    if ($row) {
-        // Verificar a senha
-        if (password_verify($senha, $row['senha'])) {
-            // Iniciar a sessão e armazenar as informações do usuário, incluindo o tema
-            $_SESSION['username'] = $usuario;
-            $_SESSION['theme'] = $theme;
-            header('Location: ../frontend/index.html'); // Redirecionar para a página inicial após login bem-sucedido
+    // Verifica se a conexão com o banco de dados está configurada
+    if (isset($conn)) {
+        // Nome da tabela é `usuario`
+        $sql = "SELECT * FROM usuario WHERE LOWER(usuario) = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            $user = $result->fetch_assoc();
+
+            // Verifica a senha
+            if (password_verify($password, $user['senha'])) {
+                $_SESSION['loggedin'] = true;
+                $_SESSION['username'] = $user['usuario'];
+                $_SESSION['userid'] = $user['id'];
+
+                header('Location: ../frontend/index.html');
+                exit();
+            } else {
+                header('Location: ../frontend/login.html?error=Senha%20incorreta&username='.$username);
+                exit();
+            }
         } else {
-            $error_message = urlencode("Senha incorreta!");
-            header('Location: ../frontend/login.html?error=' . $error_message . '&username=' . urlencode($usuario)); // Redirecionar de volta para a página de login
+            header('Location: ../frontend/login.html?error=Usuário%20não%20encontrado&username='.$username);
+            exit();
         }
     } else {
-        $error_message = urlencode("Usuário não encontrado!");
-        header('Location: ../frontend/login.html?error=' . $error_message . '&username=' . urlencode($usuario)); // Redirecionar de volta para a página de login
+        die("Erro na conexão com o banco de dados.");
     }
-
-    exit();
+} else {
+    echo "Método de requisição inválido.";
 }
-
-$conn->close();
 ?>

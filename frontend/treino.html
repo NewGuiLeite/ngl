@@ -9,9 +9,13 @@
     <script src="../js/session.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="../js/session.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserStatus();
+        });
+    </script>
 </head>
-
 <body>
     <nav class="navbar">
         <ul class="navbar-nav">
@@ -67,7 +71,6 @@
             </li>
         </ul>
     </nav>
-
     <main>
         <div class="download">
             <div class="box-container">
@@ -204,11 +207,10 @@
         });
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        checkUserStatus();
-    });
-</script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserStatus();
+        });
+    </script>
 </body>
 </html>

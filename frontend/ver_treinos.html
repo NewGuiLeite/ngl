@@ -43,14 +43,12 @@
                     <span class="link-text">Downloads</span>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a href="../frontend/treino.html" class="nav-link">
                     <i class="fas fa-dumbbell fa-3x"></i>
                     <span class="link-text">Cad Treino</span>
                 </a>
             </li>
-
             <li class="nav-item" id="admin-link" style="display: none;">
                 <a href="../frontend/usuario.html" class="nav-link">
                     <i class="fas fa-users fa-3x"></i>
@@ -114,16 +112,8 @@
 
         $(document).ready(function() {
             loadTreinos();
+            checkUserStatus();
         });
     </script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        checkUserStatus();
-    });
-</script>
-
-<script src="../js/scripts.js"></script>
-
 </body>
 </html>

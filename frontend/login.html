@@ -5,51 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/session.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserStatus(false); // Não redirecionar ao verificar status na página de login
+        });
+    </script>
     <style>
-       .error-message {
-    display: none; /* Oculta a mensagem por padrão */
-    color: #0c5460; /* Azul escuro */
-    background-color: #d1ecf1; /* Azul claro */
-    border: 1px solid #bee5eb; /* Azul claro para a borda */
-    border-radius: 5px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 10px;
-    margin-top: 10px;
-    max-width: 300px;
-    margin: 10px auto; /* Centraliza a mensagem */
-}
-
+        .error-message {
+            display: none; /* Oculta a mensagem por padrão */
+            color: #0c5460; /* Azul escuro */
+            background-color: #d1ecf1; /* Azul claro */
+            border: 1px solid #bee5eb; /* Azul claro para a borda */
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px;
+            margin-top: 10px;
+            max-width: 300px;
+            margin: 10px auto; /* Centraliza a mensagem */
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="login-box">
             <h2>Login</h2>
-
             <form action="../backend/login.php" method="POST">
-
                 <div class="user-box">
                     <label for="usuario">Usuário:</label><br>
                     <input type="text" id="usuario" name="username" required>
                 </div>
-
                 <div class="user-box">
                     <label for="senha">Senha:</label><br>
                     <input type="password" id="senha" name="senha" required>
                 </div>
-
                 <input type="hidden" id="theme" name="theme" value="light">
-
                 <button type="submit">Login</button>
-
                 <p id="error-message" class="error-message"></p>
-                
             </form>
         </div>
     </div>
-
     <script>
         function getParameterByName(name) {
             const url = window.location.href;
@@ -74,7 +71,5 @@
             }
         };
     </script>
-    
- 
 </body>
 </html>

@@ -1,7 +1,14 @@
 function checkUserStatus(redirectIfNotLoggedIn = true, callback) {
-    fetch('/ngl/backend/session_status.php') // Caminho absoluto para session_status.php
-        .then(response => response.json())
+    console.log('Verificando status do usuário...');
+    fetch('/ngl/backend/session_status.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log('Dados recebidos:', data);
             if (data.is_logged_in) {
                 document.body.classList.add('logged-in');
                 if (data.username && data.username.toLowerCase() === 'admin') {
@@ -15,7 +22,11 @@ function checkUserStatus(redirectIfNotLoggedIn = true, callback) {
                     callback(data);
                 }
             } else if (redirectIfNotLoggedIn) {
-                window.location.href = '/ngl/frontend/login.html'; // Caminho absoluto para login.html
+                const currentPath = window.location.pathname;
+                console.log('Redirecionando para login. Caminho atual:', currentPath);
+                if (currentPath !== '/ngl/frontend/login.html') {
+                    window.location.href = '/ngl/frontend/login.html';
+                }
             }
         })
         .catch(error => console.error('Erro ao verificar status do usuário:', error));

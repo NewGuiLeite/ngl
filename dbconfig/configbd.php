@@ -1,18 +1,14 @@
 <?php
-// Configurações do banco de dados
-$servidor = "localhost"; // ou o endereço do servidor do banco de dados
-$user = "root"; // seu usuário do banco de dados
-$password = ""; // sua senha do banco de dados
-$bd = "bd"; // o nome do banco de dados
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "bd";
 
-// Criar conexão
-$conn = new mysqli($servidor, $user, $password, $bd);
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexão
+// Check connection
 if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>
-
-
-

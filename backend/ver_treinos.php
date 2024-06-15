@@ -1,17 +1,24 @@
 <?php
-include '../dbconfig/configbd.php'; // Inclui o arquivo de configuração do banco de dados
+session_start();
+include(__DIR__ . '/../dbconfig/configbd.php');
 
-$sql = "SELECT * FROM treino";
-$retorno = mysqli_query($conn, $sql);
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: ../frontend/login.html');
+    exit();
+}
 
-$treinos = [];
-if ($retorno && mysqli_num_rows($retorno) > 0) {
-    while ($row = mysqli_fetch_assoc($retorno)) {
-        $treinos[] = $row;
-    }
+$userid = $_SESSION['userid'];
+
+$sql = "SELECT * FROM treino WHERE idusuario = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $userid);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$treinos = array();
+while ($row = $result->fetch_assoc()) {
+    $treinos[] = $row;
 }
 
 echo json_encode($treinos);
-
-$conn->close();
 ?>

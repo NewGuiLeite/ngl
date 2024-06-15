@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="../css/index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="../js/session.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserStatus();
+        });
+    </script>
 </head>
 <body>
     <nav class="navbar">
@@ -41,14 +46,12 @@
                     <span class="link-text">Downloads</span>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a href="../frontend/treino.html" class="nav-link">
                     <i class="fas fa-dumbbell fa-3x"></i>
                     <span class="link-text">Cad Treino</span>
                 </a>
             </li>
-
             <li class="nav-item" id="admin-link" style="display: none;">
                 <a href="../frontend/usuario.html" class="nav-link">
                     <i class="fas fa-users fa-3x"></i>
