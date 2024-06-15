@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Treinos Cadastrados</title>
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/download.css">
+    <link rel="stylesheet" href="../css/ver_treinos.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="../js/session.js"></script>
@@ -69,21 +69,9 @@
             <div class="box-container">
                 <div class="box">
                     <h2>Treinos Cadastrados</h2>
-                    <table id="user-table">
-                        <thead>
-                            <tr>
-                                <th>GRUPO</th>
-                                <th>PARTE</th>
-                                <th>NOME</th>
-                                <th>SÉRIES</th>
-                                <th>REPETIÇÕES</th>
-                                <th>OBSERVAÇÃO</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Lista de treinos será inserida aqui -->
-                        </tbody>
-                    </table>
+                    <div id="treino-cards">
+                        <!-- Lista de treinos em formato de cards será inserida aqui -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -93,20 +81,35 @@
         function loadTreinos() {
             $.get('../backend/ver_treinos.php', function(data) {
                 var treinos = JSON.parse(data);
-                var treinoTable = $('#user-table tbody');
-                treinoTable.empty();
+                var treinoCards = $('#treino-cards');
+                treinoCards.empty();
+
+                // Organiza os treinos por grupo
+                var grupos = {};
                 treinos.forEach(function(treino) {
-                    treinoTable.append(
-                        '<tr>' +
-                        '<td>' + treino.grupo + '</td>' +
-                        '<td>' + treino.parte + '</td>' +
-                        '<td>' + treino.nome + '</td>' +
-                        '<td>' + treino.series + '</td>' +
-                        '<td>' + treino.repeticao + '</td>' +
-                        '<td>' + treino.observacao + '</td>' +
-                        '</tr>'
-                    );
+                    if (!grupos[treino.grupo]) {
+                        grupos[treino.grupo] = [];
+                    }
+                    grupos[treino.grupo].push(treino);
                 });
+
+                // Renderiza os treinos agrupados
+                for (var grupo in grupos) {
+                    if (grupos.hasOwnProperty(grupo)) {
+                        treinoCards.append('<div class="group-title">GRUPO ' + grupo + '</div>');
+                        grupos[grupo].forEach(function(treino) {
+                            treinoCards.append(
+                                '<div class="treino-card">' +
+                                '<div><span>Parte:</span> ' + treino.parte + '</div>' +
+                                '<div><span>Nome:</span> ' + treino.nome + '</div>' +
+                                '<div><span>Séries:</span> ' + treino.series + '</div>' +
+                                '<div><span>Repetições:</span> ' + treino.repeticao + '</div>' +
+                                '<div><span>Observação:</span> ' + treino.observacao + '</div>' +
+                                '</div>'
+                            );
+                        });
+                    }
+                }
             });
         }
 

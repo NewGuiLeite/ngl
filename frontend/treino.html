@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Treino</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/download.css">
-    <script src="../js/session.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+    <link rel="stylesheet" href="../css/treino.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="../js/session.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -49,14 +50,12 @@
                     <span class="link-text">Downloads</span>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a href="../frontend/treino.html" class="nav-link">
                     <i class="fas fa-dumbbell fa-3x"></i>
                     <span class="link-text">Cad Treino</span>
                 </a>
             </li>
-
             <li class="nav-item" id="admin-link" style="display: none;">
                 <a href="../frontend/usuario.html" class="nav-link">
                     <i class="fas fa-users fa-3x"></i>
@@ -72,63 +71,75 @@
         </ul>
     </nav>
     <main>
-        <div class="download">
-            <div class="box-container">
-                <div class="box">
-                    <h2 id="form-title">Cadastro de Treino</h2>
-                    <form id="treino-form" action="../backend/treino.php" method="POST">
-                        <input type="hidden" id="treino-id" name="id">
-                        <div class="user-box">
-                            <label for="grupo">Grupo:</label><br>
-                            <input type="text" id="grupo" name="grupo" required>
-                        </div>
-                        <div class="user-box">
-                            <label for="parte">Parte do Corpo:</label><br>
-                            <input type="text" id="parte" name="parte" required>
-                        </div>
-                        <div class="user-box">
-                            <label for="nome">Nome do Exercício:</label><br>
-                            <input type="text" id="nome" name="nome" required>
-                        </div>
-                        <div class="user-box">
-                            <label for="series">Séries:</label><br>
-                            <input type="number" id="series" name="series" required>
-                        </div>
-                        <div class="user-box">
-                            <label for="repeticao">Repetições:</label><br>
-                            <input type="text" id="repeticao" name="repeticao" required>
-                        </div>
-                        <div class="user-box">
-                            <label for="observacao">Observação:</label><br>
-                            <input type="text" id="observacao" name="observacao">
-                        </div><br>
-                        <input type="hidden" id="form-action" name="action" value="register">
-                        <button class="all-btn" type="submit">Cadastrar</button>
-                    </form>
-                    
-                    <div id="response-message"></div>
-                </div>
-
-                <div class="box-container">
-                    <div class="box">
-                        <h2>Treinos Cadastrados</h2>
-                        <table id="treino-table">
-                            <thead>
-                                <tr>
-                                    <th>Grupo</th>
-                                    <th>Parte</th>
-                                    <th>Nome</th>
-                                    <th>Séries</th>
-                                    <th>Repetições</th>
-                                    <th>Observação</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Lista de treinos será inserida aqui -->
-                            </tbody>
-                        </table>
+        <div class="treino-container">
+            <div class="treino-box">
+                <h2 id="form-title">Cadastro de Treino</h2>
+                <form id="treino-form" action="../backend/treino.php" method="POST">
+                    <input type="hidden" id="treino-id" name="id">
+                    <div class="user-box">
+                        <label for="grupo">Grupo:</label><br>
+                        <select id="grupo" name="grupo" required>
+                            <option value="">Selecione o grupo</option>
+                            <!-- Opções de A a Z -->
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                            <option value="K">K</option>
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="N">N</option>
+                            <option value="O">O</option>
+                            <option value="P">P</option>
+                            <option value="Q">Q</option>
+                            <option value="R">R</option>
+                            <option value="S">S</option>
+                            <option value="T">T</option>
+                            <option value="U">U</option>
+                            <option value="V">V</option>
+                            <option value="W">W</option>
+                            <option value="X">X</option>
+                            <option value="Y">Y</option>
+                            <option value="Z">Z</option>
+                        </select>
                     </div>
+                    <div class="user-box">
+                        <label for="parte">Parte do Corpo:</label><br>
+                        <input type="text" id="parte" name="parte" required>
+                    </div>
+                    <div class="user-box">
+                        <label for="nome">Nome do Exercício:</label><br>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    <div class="user-box">
+                        <label for="series">Séries:</label><br>
+                        <input type="number" id="series" name="series" required>
+                    </div>
+                    <div class="user-box">
+                        <label for="repeticao">Repetições:</label><br>
+                        <input type="text" id="repeticao" name="repeticao" required>
+                    </div>
+                    <div class="user-box">
+                        <label for="observacao">Observação:</label><br>
+                        <input type="text" id="observacao" name="observacao">
+                    </div><br>
+                    <input type="hidden" id="form-action" name="action" value="register">
+                    <button class="all-btn" type="submit">Cadastrar</button>
+                </form>
+                
+                <div id="response-message"></div>
+            </div>
+
+            <div class="treino-box">
+                <h2>Treinos Cadastrados</h2>
+                <div id="treino-cards">
+                    <!-- Lista de treinos em formato de cards será inserida aqui -->
                 </div>
             </div>
         </div>
@@ -138,24 +149,39 @@
         function loadTreinos() {
             $.get('../backend/treino.php?action=list', function(data) {
                 var treinos = JSON.parse(data);
-                var treinoTable = $('#treino-table tbody');
-                treinoTable.empty();
+                var treinoCards = $('#treino-cards');
+                treinoCards.empty();
+
+                // Organiza os treinos por grupo
+                var grupos = {};
                 treinos.forEach(function(treino) {
-                    treinoTable.append(
-                        '<tr>' +
-                        '<td>' + treino.grupo + '</td>' +
-                        '<td>' + treino.parte + '</td>' +
-                        '<td>' + treino.nome + '</td>' +
-                        '<td>' + treino.series + '</td>' +
-                        '<td>' + treino.repeticao + '</td>' +
-                        '<td>' + treino.observacao + '</td>' +
-                        '<td>' +
-                        '<button onclick="prepareEditTreino(' + treino.id + ', \'' + treino.grupo + '\', \'' + treino.parte + '\', \'' + treino.nome + '\', ' + treino.series + ', \'' + treino.repeticao + '\', \'' + treino.observacao + '\')">Alterar</button> ' +
-                        '<button onclick="deleteTreino(' + treino.id + ')">Excluir</button>' +
-                        '</td>' +
-                        '</tr>'
-                    );
+                    if (!grupos[treino.grupo]) {
+                        grupos[treino.grupo] = [];
+                    }
+                    grupos[treino.grupo].push(treino);
                 });
+
+                // Renderiza os treinos agrupados
+                for (var grupo in grupos) {
+                    if (grupos.hasOwnProperty(grupo)) {
+                        treinoCards.append('<div class="group-title">GRUPO ' + grupo + '</div>');
+                        grupos[grupo].forEach(function(treino) {
+                            treinoCards.append(
+                                '<div class="treino-card">' +
+                                '<div><span>Parte:</span> ' + treino.parte + '</div>' +
+                                '<div><span>Nome:</span> ' + treino.nome + '</div>' +
+                                '<div><span>Séries:</span> ' + treino.series + '</div>' +
+                                '<div><span>Repetições:</span> ' + treino.repeticao + '</div>' +
+                                '<div><span>Observação:</span> ' + treino.observacao + '</div>' +
+                                '<div class="btn-container">' +
+                                '<button class="btn btn-secondary btn-sm" onclick="prepareEditTreino(' + treino.id + ', \'' + treino.grupo + '\', \'' + treino.parte + '\', \'' + treino.nome + '\', ' + treino.series + ', \'' + treino.repeticao + '\', \'' + treino.observacao + '\')">Alterar</button> ' +
+                                '<button class="btn btn-danger btn-sm" onclick="deleteTreino(' + treino.id + ')">Excluir</button>' +
+                                '</div>' +
+                                '</div>'
+                            );
+                        });
+                    }
+                }
             });
         }
 
@@ -170,6 +196,7 @@
             $('#form-action').val('edit');
             $('#form-title').text('Editar Treino');
             $('button[type="submit"]').text('Atualizar');
+            $('html, body').animate({ scrollTop: 0 }, 'fast'); // Rola para o topo
         }
 
         function deleteTreino(id) {
@@ -198,6 +225,7 @@
                     $('#form-action').val('register');
                     $('#form-title').text('Cadastro de Treino');
                     $('button[type="submit"]').text('Cadastrar');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast'); // Rola para o topo
                 }
             });
         });

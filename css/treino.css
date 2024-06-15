@@ -1,0 +1,173 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #28282c;
+    color: #ddd;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main content */
+main {
+    padding: 2rem;
+    margin-left: 5rem;
+}
+
+/* Container e Box */
+.treino-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.treino-box {
+    border: 2px solid #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: .5rem;
+    padding: 1.5rem;
+    margin: 1rem;
+    background-color: #1a1a1a;
+    color: #ddd;
+    width: 100%;
+    max-width: 800px;
+    text-align: left;
+}
+
+.treino-box h2 {
+    font-size: 2rem;
+    color: #00aaff;
+    margin-bottom: 1rem;
+}
+
+.treino-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-box {
+    margin-bottom: 1rem;
+}
+
+.user-box label {
+    font-size: 1rem;
+    color: #b6b6b6;
+}
+
+.user-box input,
+.user-box select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #333;
+    border-radius: 0.25rem;
+    background-color: #2a2a2a;
+    color: #ddd;
+}
+
+.user-box input:focus,
+.user-box select:focus {
+    outline: none;
+    border-color: #00aaff;
+}
+
+.all-btn {
+    background-color: #00aaff;
+    color: #fff;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.all-btn:hover {
+    background-color: #008ecc;
+}
+
+#response-message {
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* Cards de treino */
+#treino-cards {
+    margin-top: 1.5rem;
+}
+
+.treino-card {
+    border: 1px solid #333;
+    border-radius: .5rem;
+    background-color: #1a1a1a;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: #ddd;
+}
+
+.treino-card div {
+    margin-bottom: 0.5rem;
+}
+
+.treino-card div span {
+    font-weight: bold;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.btn-container .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* Estilos responsivos */
+@media only screen and (max-width: 600px) {
+    main {
+        margin-left: 5rem; /* Mantém a margem à esquerda */
+        padding: 1rem;
+    }
+
+    .navbar {
+        width: 5rem;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+    }
+
+    .navbar .nav-item {
+        display: inline-block;
+    }
+
+    .navbar .nav-link {
+        padding: 0.5rem;
+    }
+
+    .treino-box {
+        padding: 1rem;
+        margin: 0.5rem;
+        width: 100%;
+    }
+
+    .treino-box h2 {
+        font-size: 1.5rem;
+    }
+
+    .treino-card {
+        padding: 1rem;
+        margin: 0.5rem 0;
+    }
+
+    .treino-card div {
+        font-size: 0.875rem;
+    }
+
+    .btn-container .btn {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
+}
