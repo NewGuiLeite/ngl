@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treinos Cadastrados</title>
+    <title>Contas Cadastradas</title>
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/ver_treinos.css">
+    <link rel="stylesheet" href="../css/ver_contas.css"> <!-- Vamos reutilizar o CSS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="../js/session.js"></script>
@@ -77,9 +77,9 @@
         <div class="download">
             <div class="box-container">
                 <div class="box">
-                    <h2>Treinos Cadastrados</h2>
-                    <div id="treino-cards">
-                        <!-- Lista de treinos em formato de cards será inserida aqui -->
+                    <h2>Contas Cadastradas</h2>
+                    <div id="contas-cards">
+                        <!-- Lista de contas em formato de cards será inserida aqui -->
                     </div>
                 </div>
             </div>
@@ -87,43 +87,27 @@
     </main>
 
     <script>
-        function loadTreinos() {
-            $.get('../backend/ver_treinos.php', function(data) {
-                var treinos = JSON.parse(data);
-                var treinoCards = $('#treino-cards');
-                treinoCards.empty();
+        function loadContas() {
+            $.get('../backend/ver_contas.php', function(data) {
+                var contas = JSON.parse(data);
+                var contasCards = $('#contas-cards');
+                contasCards.empty();
 
-                // Organiza os treinos por grupo
-                var grupos = {};
-                treinos.forEach(function(treino) {
-                    if (!grupos[treino.grupo]) {
-                        grupos[treino.grupo] = [];
-                    }
-                    grupos[treino.grupo].push(treino);
+                contas.forEach(function(conta) {
+                    contasCards.append(
+                        '<div class="treino-card">' +
+                        '<div><span>Descrição:</span> ' + conta.descricao + '</div>' +
+                        '<div><span>Valor:</span> ' + conta.valor + '</div>' +
+                        '<div><span>Status de Pagamento:</span> ' + conta.status_pagamento + '</div>' +
+                        '<div><span>Observação:</span> ' + conta.observacao + '</div>' +
+                        '</div>'
+                    );
                 });
-
-                // Renderiza os treinos agrupados
-                for (var grupo in grupos) {
-                    if (grupos.hasOwnProperty(grupo)) {
-                        treinoCards.append('<div class="group-title">GRUPO ' + grupo + '</div>');
-                        grupos[grupo].forEach(function(treino) {
-                            treinoCards.append(
-                                '<div class="treino-card">' +
-                                '<div><span>Parte:</span> ' + treino.parte + '</div>' +
-                                '<div><span>Nome:</span> ' + treino.nome + '</div>' +
-                                '<div><span>Séries:</span> ' + treino.series + '</div>' +
-                                '<div><span>Repetições:</span> ' + treino.repeticao + '</div>' +
-                                '<div><span>Observação:</span> ' + treino.observacao + '</div>' +
-                                '</div>'
-                            );
-                        });
-                    }
-                }
             });
         }
 
         $(document).ready(function() {
-            loadTreinos();
+            loadContas();
             checkUserStatus();
         });
     </script>

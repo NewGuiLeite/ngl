@@ -1,0 +1,65 @@
+/* Estilos gerais */
+.download .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem; /* Espaço entre as caixas */
+    justify-content: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-width: 100%; /* Certifique-se de que o contêiner não estoure a largura da tela */
+    overflow-x: auto; /* Adiciona rolagem horizontal se necessário */
+}
+
+.download .box {
+    border: 2px solid #333; /* Borda escura */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    border-radius: .5rem;
+    text-align: center;
+    padding: 1.5rem; /* Padding dentro das caixas */
+    margin: 1rem; /* Margem ao redor das caixas */
+    background-color: #1a1a1a; /* Fundo escuro */
+    color: #ddd; /* Cor do texto */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transições suaves */
+    overflow-x: auto; /* Adiciona rolagem horizontal se necessário */
+    width: 100%; /* Garante que a caixa ocupe toda a largura disponível */
+    max-width: 1200px; /* Limita a largura máxima da caixa */
+}
+
+.download .box h2 {
+    font-size: 2rem; /* Tamanho da fonte */
+    margin-bottom: 1.5rem; /* Margem abaixo do título */
+}
+
+.download .group-title {
+    font-size: 1.5rem; /* Tamanho da fonte para o título do grupo */
+    margin-top: 1.5rem;
+    color: #00aaff; /* Cor do título do grupo */
+    text-align: left;
+}
+
+.download .treino-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #2a2a2a;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.download .treino-card div {
+    margin-bottom: 5px;
+}
+
+.download .treino-card div span {
+    font-weight: bold;
+}
+
+/* Estilos responsivos */
+@media only screen and (max-width: 600px) {
+    .download .box {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+}

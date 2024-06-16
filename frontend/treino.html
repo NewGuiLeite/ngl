@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Treino</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/treino.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="../js/session.js"></script>
+</head>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             checkUserStatus();
@@ -33,11 +32,19 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="../frontend/index.html" class="nav-link">
+                <a href="../frontend/contas.html" class="nav-link">
+                    <i class="fas fa-dollar-sign fa-3x"></i>
+                    <span class="link-text">Cad Contas</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="../frontend/ver_contas.html" class="nav-link">
                     <i class="fas fa-dollar-sign fa-3x"></i>
                     <span class="link-text">Finanças</span>
                 </a>
             </li>
+            
             <li class="nav-item">
                 <a href="../frontend/ver_treinos.html" class="nav-link">
                     <i class="fas fa-dumbbell fa-3x"></i>
@@ -70,6 +77,7 @@
             </li>
         </ul>
     </nav>
+
     <main>
         <div class="treino-container">
             <div class="treino-box">
