@@ -30,11 +30,21 @@
     margin-bottom: 1.5rem; /* Margem abaixo do título */
 }
 
-.download .group-title {
-    font-size: 1.5rem; /* Tamanho da fonte para o título do grupo */
-    margin-top: 1.5rem;
-    color: #00aaff; /* Cor do título do grupo */
-    text-align: left;
+#totais {
+    margin-bottom: 1.5rem;
+}
+
+#totais p {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+#valor-pagas {
+    color: green;
+}
+
+#valor-nao-pagas {
+    color: red;
 }
 
 .download .treino-card {
@@ -54,6 +64,42 @@
 
 .download .treino-card div span {
     font-weight: bold;
+}
+
+/* Estilos para o botão */
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+.btn-secondary {
+    background-color: #007bff;
+}
+
+.btn-secondary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
 }
 
 /* Estilos responsivos */

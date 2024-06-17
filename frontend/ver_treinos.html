@@ -9,7 +9,92 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="../js/session.js"></script>
+    <style>
+        .download .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .download .box {
+            border: 2px solid #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: .5rem;
+            text-align: center;
+            padding: 1.5rem;
+            margin: 1rem;
+            background-color: #1a1a1a;
+            color: #ddd;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow-x: auto;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .download .box h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .download .group-title {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            color: #00aaff;
+            text-align: left;
+        }
+
+        .download .treino-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .download .treino-card div {
+            margin-bottom: 5px;
+        }
+
+        .download .treino-card div span {
+            font-weight: bold;
+        }
+
+        .download .treino-card div span.nome {
+            color: #00aaff;
+        }
+
+        .download .treino-card div span.repeticao {
+            color: #ff6347;
+        }
+
+        .download .treino-card div span.observacao {
+            color: #ffa500;
+        }
+
+        .download .treino-card.active {
+            background-color: #4CAF50 !important;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .download .box {
+                padding: 1rem;
+                margin: 0.5rem;
+            }
+        }
+    </style>
+
 </head>
+
 <body>
     <nav class="navbar">
         <ul class="navbar-nav">
@@ -38,6 +123,13 @@
                     <span class="link-text">Finanças</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="../frontend/treino.html" class="nav-link">
+                    <i class="fas fa-dumbbell fa-3x"></i>
+                    <span class="link-text">Cad Treino</span>
+                </a>
+            </li>
             
             <li class="nav-item">
                 <a href="../frontend/ver_treinos.html" class="nav-link">
@@ -51,12 +143,7 @@
                     <span class="link-text">Downloads</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="../frontend/treino.html" class="nav-link">
-                    <i class="fas fa-dumbbell fa-3x"></i>
-                    <span class="link-text">Cad Treino</span>
-                </a>
-            </li>
+            
             <li class="nav-item" id="admin-link" style="display: none;">
                 <a href="../frontend/usuario.html" class="nav-link">
                     <i class="fas fa-users fa-3x"></i>
@@ -107,17 +194,47 @@
                     if (grupos.hasOwnProperty(grupo)) {
                         treinoCards.append('<div class="group-title">GRUPO ' + grupo + '</div>');
                         grupos[grupo].forEach(function(treino) {
+                            var estadoClass = treino.estado === 'ativo' ? 'active' : '';
                             treinoCards.append(
-                                '<div class="treino-card">' +
-                                '<div><span>Parte:</span> ' + treino.parte + '</div>' +
-                                '<div><span>Nome:</span> ' + treino.nome + '</div>' +
-                                '<div><span>Séries:</span> ' + treino.series + '</div>' +
-                                '<div><span>Repetições:</span> ' + treino.repeticao + '</div>' +
-                                '<div><span>Observação:</span> ' + treino.observacao + '</div>' +
+                                '<div class="treino-card ' + estadoClass + '" data-id="' + treino.id + '" onclick="toggleColor(this)">' +
+                                '<div><span class="parte">Parte:</span> ' + treino.parte + '</div>' +
+                                '<div><span class="nome">Nome:</span> ' + treino.nome + '</div>' +
+                                '<div><span class="series">Séries:</span> ' + treino.series + '</div>' +
+                                '<div><span class="repeticao">Repetições:</span> ' + treino.repeticao + '</div>' +
+                                '<div><span class="observacao">Observação:</span> ' + treino.observacao + '</div>' +
                                 '</div>'
                             );
                         });
                     }
+                }
+            });
+        }
+
+        function toggleColor(element) {
+            var id_treino = $(element).data('id');
+            var estado = element.classList.contains('active') ? 'normal' : 'ativo';
+
+            // Atualiza a classe do elemento imediatamente
+            if (estado === 'ativo') {
+                element.classList.add('active');
+            } else {
+                element.classList.remove('active');
+            }
+
+            $.post('../backend/ver_treinos.php', {
+                action: 'toggle',
+                id_treino: id_treino,
+                estado: estado
+            }, function(response) {
+                var result = JSON.parse(response);
+                if (result.status !== 'success') {
+                    // Reverte a mudança de classe se a atualização falhar
+                    if (estado === 'ativo') {
+                        element.classList.remove('active');
+                    } else {
+                        element.classList.add('active');
+                    }
+                    console.error('Erro ao atualizar estado do treino:', result.message);
                 }
             });
         }

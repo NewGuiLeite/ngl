@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contas Cadastradas</title>
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/ver_contas.css"> <!-- Vamos reutilizar o CSS -->
+    <link rel="stylesheet" href="../css/ver_contas.css"> <!-- Usando o novo CSS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <script src="../js/session.js"></script>
@@ -38,6 +38,13 @@
                     <span class="link-text">Finanças</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="../frontend/treino.html" class="nav-link">
+                    <i class="fas fa-dumbbell fa-3x"></i>
+                    <span class="link-text">Cad Treino</span>
+                </a>
+            </li>
             
             <li class="nav-item">
                 <a href="../frontend/ver_treinos.html" class="nav-link">
@@ -51,12 +58,7 @@
                     <span class="link-text">Downloads</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="../frontend/treino.html" class="nav-link">
-                    <i class="fas fa-dumbbell fa-3x"></i>
-                    <span class="link-text">Cad Treino</span>
-                </a>
-            </li>
+            
             <li class="nav-item" id="admin-link" style="display: none;">
                 <a href="../frontend/usuario.html" class="nav-link">
                     <i class="fas fa-users fa-3x"></i>
@@ -78,6 +80,11 @@
             <div class="box-container">
                 <div class="box">
                     <h2>Contas Cadastradas</h2>
+                    <div id="totais">
+                        <p>Total de Contas Pagas: <span id="total-pagas">0</span> | Valor: <span id="valor-pagas" style="color: green;">R$ 0.00</span></p>
+                        <p>Total de Contas Não Pagas: <span id="total-nao-pagas">0</span> | Valor: <span id="valor-nao-pagas" style="color: red;">R$ 0.00</span></p>
+                        <p>Total de Contas: <span id="total-contas">0</span></p> <!-- Adicionando o total de contas -->
+                    </div>
                     <div id="contas-cards">
                         <!-- Lista de contas em formato de cards será inserida aqui -->
                     </div>
@@ -91,18 +98,67 @@
             $.get('../backend/ver_contas.php', function(data) {
                 var contas = JSON.parse(data);
                 var contasCards = $('#contas-cards');
+                var totalPagas = 0;
+                var totalNaoPagas = 0;
+                var valorPagas = 0;
+                var valorNaoPagas = 0;
                 contasCards.empty();
 
                 contas.forEach(function(conta) {
+                    var statusColor = conta.status_pagamento === 'paga' ? 'green' : 'red';
+                    if (conta.status_pagamento === 'paga') {
+                        totalPagas++;
+                        valorPagas += parseFloat(conta.valor);
+                    } else {
+                        totalNaoPagas++;
+                        valorNaoPagas += parseFloat(conta.valor);
+                    }
+
                     contasCards.append(
                         '<div class="treino-card">' +
                         '<div><span>Descrição:</span> ' + conta.descricao + '</div>' +
-                        '<div><span>Valor:</span> ' + conta.valor + '</div>' +
-                        '<div><span>Status de Pagamento:</span> ' + conta.status_pagamento + '</div>' +
+                        '<div><span>Valor:</span> R$ ' + parseFloat(conta.valor).toFixed(2) + '</div>' +
+                        '<div><span>Status de Pagamento:</span> <span style="color: ' + statusColor + ';">' + conta.status_pagamento + '</span></div>' +
                         '<div><span>Observação:</span> ' + conta.observacao + '</div>' +
+                        '<div class="btn-container">' +
+                        '<button class="btn btn-secondary btn-sm" onclick="markAsPaid(' + conta.id + ')">Marcar como Pago</button>' +
+                        '<button class="btn btn-danger btn-sm" onclick="markAsUnpaid(' + conta.id + ')">Marcar como Não Pago</button>' +
+                        '</div>' +
                         '</div>'
                     );
                 });
+
+                $('#total-pagas').text(totalPagas);
+                $('#valor-pagas').text('R$ ' + valorPagas.toFixed(2));
+                $('#total-nao-pagas').text(totalNaoPagas);
+                $('#valor-nao-pagas').text('R$ ' + valorNaoPagas.toFixed(2));
+                $('#total-contas').text(totalPagas + totalNaoPagas); // Atualizando o total de contas
+            });
+        }
+
+        function markAsPaid(id) {
+            $.post('../backend/ver_contas.php', {
+                action: 'markAsPaid',
+                id: id
+            }, function(response) {
+                var result = JSON.parse(response);
+                $('#response-message').text(result.message).css('color', result.status === 'success' ? 'green' : 'red');
+                if (result.status === 'success') {
+                    loadContas();
+                }
+            });
+        }
+
+        function markAsUnpaid(id) {
+            $.post('../backend/ver_contas.php', {
+                action: 'markAsUnpaid',
+                id: id
+            }, function(response) {
+                var result = JSON.parse(response);
+                $('#response-message').text(result.message).css('color', result.status === 'success' ? 'green' : 'red');
+                if (result.status === 'success') {
+                    loadContas();
+                }
             });
         }
 
