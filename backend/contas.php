@@ -1,74 +1,53 @@
 <?php
 session_start();
 include('../dbconfig/configbd.php');
+header('Content-Type: application/json; charset=utf-8');
 
-// Verifica se o usuário está logado
+// exige login, igual ao seu fluxo
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: ../frontend/login.html');
+    http_response_code(401);
+    echo json_encode(['error' => 'not_auth']);
     exit();
 }
 
-$userid = $_SESSION['userid'];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'];
-
-    if ($action === 'register') {
-        $descricao = $_POST['descricao'];
-        $valor = $_POST['valor'];
-        $status_pagamento = $_POST['status_pagamento'];
-        $observacao = $_POST['observacao'];
-
-        $sql = "INSERT INTO contas (descricao, valor, status_pagamento, observacao, idusuario) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sdssi', $descricao, $valor, $status_pagamento, $observacao, $userid);
-
-        if ($stmt->execute()) {
-            echo json_encode(['status' => 'success', 'message' => 'Conta cadastrada com sucesso!']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Erro ao cadastrar conta.']);
-        }
-    } elseif ($action === 'edit') {
-        $id = $_POST['id'];
-        $descricao = $_POST['descricao'];
-        $valor = $_POST['valor'];
-        $status_pagamento = $_POST['status_pagamento'];
-        $observacao = $_POST['observacao'];
-
-        $sql = "UPDATE contas SET descricao = ?, valor = ?, status_pagamento = ?, observacao = ? WHERE id = ? AND idusuario = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sdssii', $descricao, $valor, $status_pagamento, $observacao, $id, $userid);
-
-        if ($stmt->execute()) {
-            echo json_encode(['status' => 'success', 'message' => 'Conta atualizada com sucesso!']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Erro ao atualizar conta.']);
-        }
-    } elseif ($action === 'delete') {
-        $id = $_POST['id'];
-
-        $sql = "DELETE FROM contas WHERE id = ? AND idusuario = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('ii', $id, $userid);
-
-        if ($stmt->execute()) {
-            echo json_encode(['status' => 'success', 'message' => 'Conta excluída com sucesso!']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Erro ao excluir conta.']);
-        }
-    }
-} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $sql = "SELECT * FROM contas WHERE idusuario = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $userid);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $contas = array();
-    while ($row = $result->fetch_assoc()) {
-        $contas[] = $row;
-    }
-
-    echo json_encode($contas);
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    http_response_code(405);
+    echo json_encode(['error' => 'method_not_allowed']);
+    exit();
 }
-?>
+
+// filtros (todos opcionais)
+$cpf     = $_GET['cpf']     ?? '';
+$nome    = $_GET['nome']    ?? '';
+$genero  = $_GET['genero']  ?? '';
+$dt_nasc = $_GET['dt_nasc'] ?? '';
+
+$limit   = max(1, min(200, (int)($_GET['limit']  ?? 100)));
+$offset  = max(0,         (int)($_GET['offset'] ?? 0));
+
+$sql = "SELECT cpf, nome, genero, dt_nasc
+        FROM consulta_pessoas
+        WHERE 1=1";
+
+$params = [];
+$types  = '';
+
+// usa LIKE para permitir busca parcial (sem transformar nada)
+if ($cpf !== '')     { $sql .= " AND cpf LIKE ?";     $params[] = "%$cpf%";     $types .= 's'; }
+if ($nome !== '')    { $sql .= " AND nome LIKE ?";    $params[] = "%$nome%";    $types .= 's'; }
+if ($genero !== '')  { $sql .= " AND genero LIKE ?";  $params[] = "%$genero%";  $types .= 's'; }
+if ($dt_nasc !== '') { $sql .= " AND dt_nasc LIKE ?"; $params[] = "%$dt_nasc%"; $types .= 's'; }
+
+$sql .= " ORDER BY nome ASC LIMIT ? OFFSET ?";
+$params[] = $limit;  $types .= 'i';
+$params[] = $offset; $types .= 'i';
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param($types, ...$params);
+$stmt->execute();
+$res = $stmt->get_result();
+
+$out = [];
+while ($r = $res->fetch_assoc()) $out[] = $r;
+
+echo json_encode($out);
