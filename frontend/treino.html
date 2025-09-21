@@ -1,257 +1,181 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Treino</title>
-    <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/treino.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-    <script src="../js/session.js"></script>
-</head>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            checkUserStatus();
-        });
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro de Treino</title>
+
+  <link rel="stylesheet" href="/ngl/css/index.css">
+  <link rel="stylesheet" href="/ngl/css/treino.css">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+  <script src="/ngl/js/session.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof checkUserStatus === 'function') checkUserStatus();
+    });
+  </script>
 </head>
 <body>
-    <nav class="navbar">
-        <ul class="navbar-nav">
-            <li class="nav-item logo">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-code fa-3x"></i>
-                    <span class="link-text">ngL.</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="../frontend/index.html" class="nav-link">
-                    <i class="fas fa-home fa-3x"></i>
-                    <span class="link-text">Início</span>
-                </a>
-            </li>
+  <!-- NAVBAR externa -->
+  <div id="navbar-root"></div>
+  <script>
+    fetch('/ngl/frontend/navbar.html?v=2')
+      .then(r => { if(!r.ok) throw new Error(r.status); return r.text(); })
+      .then(html => { document.getElementById('navbar-root').outerHTML = html; })
+      .catch(err => console.error('Erro carregando navbar:', err));
+  </script>
 
-             <!--
-            <li class="nav-item">
-                <a href="../frontend/contas.html" class="nav-link">
-                    <i class="fas fa-dollar-sign fa-3x"></i>
-                    <span class="link-text">Cad Contas</span>
-                </a>
-            </li>
+  <main>
+    <div class="treino-container">
+      <div class="treino-box">
+        <h2 id="form-title">Cadastro de Treino</h2>
 
-            <li class="nav-item">
-                <a href="../frontend/ver_contas.html" class="nav-link">
-                    <i class="fas fa-dollar-sign fa-3x"></i>
-                    <span class="link-text">Finanças</span>
-                </a>
-            </li>
-              -->
+        <form id="treino-form">
+          <input type="hidden" id="treino-id" name="id">
+          <div class="user-box">
+            <label for="grupo">Grupo:</label><br>
+            <select id="grupo" name="grupo" required>
+              <option value="">Selecione o grupo</option>
+              <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+              <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+              <option value="G">G</option><option value="H">H</option><option value="I">I</option>
+              <option value="J">J</option><option value="K">K</option><option value="L">L</option>
+              <option value="M">M</option><option value="N">N</option><option value="O">O</option>
+              <option value="P">P</option><option value="Q">Q</option><option value="R">R</option>
+              <option value="S">S</option><option value="T">T</option><option value="U">U</option>
+              <option value="V">V</option><option value="W">W</option><option value="X">X</option>
+              <option value="Y">Y</option><option value="Z">Z</option>
+            </select>
+          </div>
 
-            <li class="nav-item">
-                <a href="../frontend/treino.html" class="nav-link">
-                    <i class="fas fa-dumbbell fa-3x"></i>
-                    <span class="link-text">Cad Treino</span>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="../frontend/ver_treinos.html" class="nav-link">
-                    <i class="fas fa-dumbbell fa-3x"></i>
-                    <span class="link-text">Treino</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="../frontend/consulta_pessoas.html" class="nav-link">
-                    <i class="fas fa-download fa-3x"></i>
-                    <span class="link-text">Consulta</span>
-                </a>
-            </li>
-            
-            <li class="nav-item" id="admin-link" style="display: none;">
-                <a href="../frontend/usuario.html" class="nav-link">
-                    <i class="fas fa-users fa-3x"></i>
-                    <span class="link-text">Usuários</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="../backend/logout.php" class="nav-link">
-                    <i class="fas fa-sign-out-alt fa-3x"></i>
-                    <span class="link-text">Logout</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+          <div class="user-box">
+            <label for="parte">Parte do Corpo:</label><br>
+            <input type="text" id="parte" name="parte" required>
+          </div>
 
-    <main>
-        <div class="treino-container">
-            <div class="treino-box">
-                <h2 id="form-title">Cadastro de Treino</h2>
-                <form id="treino-form" action="../backend/treino.php" method="POST">
-                    <input type="hidden" id="treino-id" name="id">
-                    <div class="user-box">
-                        <label for="grupo">Grupo:</label><br>
-                        <select id="grupo" name="grupo" required>
-                            <option value="">Selecione o grupo</option>
-                            <!-- Opções de A a Z -->
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                            <option value="E">E</option>
-                            <option value="F">F</option>
-                            <option value="G">G</option>
-                            <option value="H">H</option>
-                            <option value="I">I</option>
-                            <option value="J">J</option>
-                            <option value="K">K</option>
-                            <option value="L">L</option>
-                            <option value="M">M</option>
-                            <option value="N">N</option>
-                            <option value="O">O</option>
-                            <option value="P">P</option>
-                            <option value="Q">Q</option>
-                            <option value="R">R</option>
-                            <option value="S">S</option>
-                            <option value="T">T</option>
-                            <option value="U">U</option>
-                            <option value="V">V</option>
-                            <option value="W">W</option>
-                            <option value="X">X</option>
-                            <option value="Y">Y</option>
-                            <option value="Z">Z</option>
-                        </select>
-                    </div>
-                    <div class="user-box">
-                        <label for="parte">Parte do Corpo:</label><br>
-                        <input type="text" id="parte" name="parte" required>
-                    </div>
-                    <div class="user-box">
-                        <label for="nome">Nome do Exercício:</label><br>
-                        <input type="text" id="nome" name="nome" required>
-                    </div>
-                    <div class="user-box">
-                        <label for="series">Séries:</label><br>
-                        <input type="number" id="series" name="series" required>
-                    </div>
-                    <div class="user-box">
-                        <label for="repeticao">Repetições:</label><br>
-                        <input type="text" id="repeticao" name="repeticao" required>
-                    </div>
-                    <div class="user-box">
-                        <label for="observacao">Observação:</label><br>
-                        <input type="text" id="observacao" name="observacao">
-                    </div><br>
-                    <input type="hidden" id="form-action" name="action" value="register">
-                    <button class="all-btn" type="submit">Cadastrar</button>
-                </form>
-                
-                <div id="response-message"></div>
-            </div>
+          <div class="user-box">
+            <label for="nome">Nome do Exercício:</label><br>
+            <input type="text" id="nome" name="nome" required>
+          </div>
 
-            <div class="treino-box">
-                <h2>Treinos Cadastrados</h2>
-                <div id="treino-cards">
-                    <!-- Lista de treinos em formato de cards será inserida aqui -->
-                </div>
-            </div>
-        </div>
-    </main>
+          <div class="user-box">
+            <label for="series">Séries:</label><br>
+            <input type="number" id="series" name="series" min="0" required>
+          </div>
 
-    <script>
-        function loadTreinos() {
-            $.get('../backend/treino.php?action=list', function(data) {
-                var treinos = JSON.parse(data);
-                var treinoCards = $('#treino-cards');
-                treinoCards.empty();
+          <div class="user-box">
+            <label for="repeticao">Repetições:</label><br>
+            <input type="text" id="repeticao" name="repeticao" required>
+          </div>
 
-                // Organiza os treinos por grupo
-                var grupos = {};
-                treinos.forEach(function(treino) {
-                    if (!grupos[treino.grupo]) {
-                        grupos[treino.grupo] = [];
-                    }
-                    grupos[treino.grupo].push(treino);
-                });
+          <div class="user-box">
+            <label for="observacao">Observação:</label><br>
+            <input type="text" id="observacao" name="observacao">
+          </div><br>
 
-                // Renderiza os treinos agrupados
-                for (var grupo in grupos) {
-                    if (grupos.hasOwnProperty(grupo)) {
-                        treinoCards.append('<div class="group-title">GRUPO ' + grupo + '</div>');
-                        grupos[grupo].forEach(function(treino) {
-                            treinoCards.append(
-                                '<div class="treino-card">' +
-                                '<div><span>Parte:</span> ' + treino.parte + '</div>' +
-                                '<div><span>Nome:</span> ' + treino.nome + '</div>' +
-                                '<div><span>Séries:</span> ' + treino.series + '</div>' +
-                                '<div><span>Repetições:</span> ' + treino.repeticao + '</div>' +
-                                '<div><span>Observação:</span> ' + treino.observacao + '</div>' +
-                                '<div class="btn-container">' +
-                                '<button class="btn btn-secondary btn-sm" onclick="prepareEditTreino(' + treino.id + ', \'' + treino.grupo + '\', \'' + treino.parte + '\', \'' + treino.nome + '\', ' + treino.series + ', \'' + treino.repeticao + '\', \'' + treino.observacao + '\')">Alterar</button> ' +
-                                '<button class="btn btn-danger btn-sm" onclick="deleteTreino(' + treino.id + ')">Excluir</button>' +
-                                '</div>' +
-                                '</div>'
-                            );
-                        });
-                    }
-                }
-            });
-        }
+          <input type="hidden" id="form-action" name="action" value="register">
+          <button class="all-btn" type="submit">Cadastrar</button>
+        </form>
 
-        function prepareEditTreino(id, grupo, parte, nome, series, repeticao, observacao) {
-            $('#treino-id').val(id);
-            $('#grupo').val(grupo);
-            $('#parte').val(parte);
-            $('#nome').val(nome);
-            $('#series').val(series);
-            $('#repeticao').val(repeticao);
-            $('#observacao').val(observacao);
-            $('#form-action').val('edit');
-            $('#form-title').text('Editar Treino');
-            $('button[type="submit"]').text('Atualizar');
-            $('html, body').animate({ scrollTop: 0 }, 'fast'); // Rola para o topo
-        }
+        <div id="response-message" style="margin-top:.75rem;"></div>
+      </div>
 
-        function deleteTreino(id) {
-            if (confirm('Tem certeza que deseja excluir este treino?')) {
-                $.post('../backend/treino.php', {
-                    action: 'delete',
-                    id: id
-                }, function(response) {
-                    var result = JSON.parse(response);
-                    $('#response-message').text(result.message).css('color', result.status === 'success' ? 'green' : 'red');
-                    if (result.status === 'success') {
-                        loadTreinos();
-                    }
-                });
-            }
-        }
+      <div class="treino-box">
+        <h2>Treinos Cadastrados</h2>
+        <div id="treino-cards"></div>
+      </div>
+    </div>
+  </main>
 
-        $('#treino-form').submit(function(event) {
-            event.preventDefault();
-            $.post('../backend/treino.php', $(this).serialize(), function(response) {
-                var result = JSON.parse(response);
-                $('#response-message').text(result.message).css('color', result.status === 'success' ? 'green' : 'red');
-                if (result.status === 'success') {
-                    loadTreinos();
-                    $('#treino-form')[0].reset();
-                    $('#form-action').val('register');
-                    $('#form-title').text('Cadastro de Treino');
-                    $('button[type="submit"]').text('Cadastrar');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast'); // Rola para o topo
-                }
-            });
+  <script>
+    const API = '/ngl/backend/treino.php';
+
+    function loadTreinos() {
+      $.get(API, function(data) {
+        const treinos = Array.isArray(data) ? data : [];
+        const cards = $('#treino-cards').empty();
+
+        // agrupa por grupo
+        const grupos = {};
+        treinos.forEach(t => {
+          if (!grupos[t.grupo]) grupos[t.grupo] = [];
+          grupos[t.grupo].push(t);
         });
 
-        $(document).ready(function() {
-            loadTreinos();
+        Object.keys(grupos).sort().forEach(g => {
+          cards.append('<div class="group-title">GRUPO ' + g + '</div>');
+          grupos[g].forEach(t => {
+            cards.append(
+              '<div class="treino-card">' +
+                '<div><span>Parte:</span> ' + (t.parte||'') + '</div>' +
+                '<div><span>Nome:</span> ' + (t.nome||'') + '</div>' +
+                '<div><span>Séries:</span> ' + (t.series||'') + '</div>' +
+                '<div><span>Repetições:</span> ' + (t.repeticao||'') + '</div>' +
+                '<div><span>Observação:</span> ' + (t.observacao||'') + '</div>' +
+                '<div class="btn-container">' +
+                  '<button class="btn btn-secondary btn-sm" onclick="prepareEditTreino('+t.id+', \''+escapeHtml(t.grupo)+'\', \''+escapeHtml(t.parte)+'\', \''+escapeHtml(t.nome)+'\', '+(t.series||0)+', \''+escapeHtml(t.repeticao)+'\', \''+escapeHtml(t.observacao||'')+'\')">Alterar</button> ' +
+                  '<button class="btn btn-danger btn-sm" onclick="deleteTreino('+t.id+')">Excluir</button>' +
+                '</div>' +
+              '</div>'
+            );
+          });
         });
-    </script>
+      }, 'json').fail(xhr=>{
+        if (xhr.status === 401) location.href='/ngl/frontend/login.html';
+        else alert('Erro ao listar treinos ('+xhr.status+').');
+      });
+    }
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            checkUserStatus();
-        });
-    </script>
+    function escapeHtml(s){
+      return (s??'').toString().replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    function prepareEditTreino(id, grupo, parte, nome, series, repeticao, observacao){
+      $('#treino-id').val(id);
+      $('#grupo').val(grupo);
+      $('#parte').val(parte);
+      $('#nome').val(nome);
+      $('#series').val(series);
+      $('#repeticao').val(repeticao);
+      $('#observacao').val(observacao);
+      $('#form-action').val('edit');
+      $('#form-title').text('Editar Treino');
+      $('button[type="submit"]').text('Atualizar');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteTreino(id){
+      if (!confirm('Tem certeza que deseja excluir este treino?')) return;
+      $.post(API, { action:'delete', id:id }, function(resp){
+        $('#response-message').text(resp.message).css('color', resp.status==='success' ? 'lightgreen' : 'salmon');
+        if (resp.status === 'success') loadTreinos();
+      }, 'json').fail(xhr=>{
+        if (xhr.status === 401) location.href='/ngl/frontend/login.html';
+        else alert('Erro ao excluir ('+xhr.status+').');
+      });
+    }
+
+    $('#treino-form').on('submit', function(e){
+      e.preventDefault();
+      const payload = $(this).serialize(); // inclui action (register/edit)
+      $.post(API, payload, function(resp){
+        $('#response-message').text(resp.message).css('color', resp.status==='success' ? 'lightgreen' : 'salmon');
+        if (resp.status === 'success') {
+          loadTreinos();
+          if ($('#form-action').val()==='register') $('#treino-form')[0].reset();
+          $('#form-action').val('register');
+          $('#form-title').text('Cadastro de Treino');
+          $('button[type="submit"]').text('Cadastrar');
+        }
+      }, 'json').fail(xhr=>{
+        if (xhr.status === 401) location.href='/ngl/frontend/login.html';
+        else alert('Erro ao salvar ('+xhr.status+').');
+      });
+    });
+
+    $(function(){ loadTreinos(); });
+  </script>
 </body>
 </html>

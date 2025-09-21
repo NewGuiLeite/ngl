@@ -1,249 +1,141 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treinos Cadastrados</title>
-    <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/ver_treinos.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-    <script src="../js/session.js"></script>
-    <style>
-        .download .box-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-            max-width: 100%;
-            overflow-x: auto;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Treinos Cadastrados</title>
 
-        .download .box {
-            border: 2px solid #333;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: .5rem;
-            text-align: center;
-            padding: 1.5rem;
-            margin: 1rem;
-            background-color: #1a1a1a;
-            color: #ddd;
-            transition: transform 0.3s, box-shadow 0.3s;
-            overflow-x: auto;
-            width: 100%;
-            max-width: 1200px;
-        }
+  <link rel="stylesheet" href="/ngl/css/index.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+  <script src="/ngl/js/session.js"></script>
 
-        .download .box h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .download .group-title {
-            font-size: 1.5rem;
-            margin-top: 1.5rem;
-            color: #00aaff;
-            text-align: left;
-        }
-
-        .download .treino-card {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #2a2a2a;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .download .treino-card div {
-            margin-bottom: 5px;
-        }
-
-        .download .treino-card div span {
-            font-weight: bold;
-        }
-
-        .download .treino-card div span.nome {
-            color: #00aaff;
-        }
-
-        .download .treino-card div span.repeticao {
-            color: #ff6347;
-        }
-
-        .download .treino-card div span.observacao {
-            color: #ffa500;
-        }
-
-        .download .treino-card.active {
-            background-color: #4CAF50 !important;
-        }
-
-        @media only screen and (max-width: 600px) {
-            .download .box {
-                padding: 1rem;
-                margin: 0.5rem;
-            }
-        }
-    </style>
-
+  <style>
+    .download .box-container{
+      display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;
+      padding:2rem 0; max-width:100%; overflow-x:auto;
+    }
+    .download .box{
+      border:2px solid #333; box-shadow:0 4px 8px rgba(0,0,0,.1);
+      border-radius:.5rem; text-align:center; padding:1.5rem; margin:1rem;
+      background:#1a1a1a; color:#ddd; transition:.3s; overflow-x:auto;
+      width:100%; max-width:1200px;
+    }
+    .download .box h2{ font-size:2rem; margin-bottom:1.5rem; }
+    .download .group-title{ font-size:1.5rem; margin-top:1.5rem; color:#00aaff; text-align:left; }
+    .download .treino-card{
+      display:flex; flex-direction:column; border:1px solid #ddd; padding:10px;
+      margin-bottom:10px; background:#2a2a2a; border-radius:5px; color:#fff;
+      cursor:pointer; transition:background-color .3s;
+    }
+    .download .treino-card div{ margin-bottom:5px; }
+    .download .treino-card div span{ font-weight:700; }
+    .download .treino-card div span.nome{ color:#00aaff; }
+    .download .treino-card div span.repeticao{ color:#ff6347; }
+    .download .treino-card div span.observacao{ color:#ffa500; }
+    .download .treino-card.active{ background:#4CAF50 !important; }
+    @media (max-width:600px){ .download .box{ padding:1rem; margin:.5rem; } }
+  </style>
 </head>
-
 <body>
-    <nav class="navbar">
-        <ul class="navbar-nav">
-            <li class="nav-item logo">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-code fa-3x"></i>
-                    <span class="link-text">ngL.</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="../frontend/index.html" class="nav-link">
-                    <i class="fas fa-home fa-3x"></i>
-                    <span class="link-text">Início</span>
-                </a>
-            </li>
-               <!--
-            <li class="nav-item">
-                <a href="../frontend/contas.html" class="nav-link">
-                    <i class="fas fa-dollar-sign fa-3x"></i>
-                    <span class="link-text">Cad Contas</span>
-                </a>
-            </li>
+  <!-- NAVBAR via fetch -->
+  <div id="navbar-root"></div>
+  <script>
+    (function(){
+      const target = document.getElementById('navbar-root');
+      fetch('/ngl/frontend/navbar.html?v=3')
+        .then(r => { if(!r.ok) throw new Error('Navbar não encontrada: '+r.status); return r.text(); })
+        .then(html => target.outerHTML = html)
+        .catch(err => { console.error(err); target.outerHTML = '<div style="color:#f66;padding:10px">Falha ao carregar o menu.</div>'; });
+    })();
+  </script>
 
-            <li class="nav-item">
-                <a href="../frontend/ver_contas.html" class="nav-link">
-                    <i class="fas fa-dollar-sign fa-3x"></i>
-                    <span class="link-text">Finanças</span>
-                </a>
-            </li>
-              -->
-            <li class="nav-item">
-                <a href="../frontend/treino.html" class="nav-link">
-                    <i class="fas fa-dumbbell fa-3x"></i>
-                    <span class="link-text">Cad Treino</span>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="../frontend/ver_treinos.html" class="nav-link">
-                    <i class="fas fa-dumbbell fa-3x"></i>
-                    <span class="link-text">Treino</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="../frontend/consulta_pessoas.html" class="nav-link">
-                    <i class="fas fa-download fa-3x"></i>
-                    <span class="link-text">Consulta</span>
-                </a>
-            </li>
-            
-            <li class="nav-item" id="admin-link" style="display: none;">
-                <a href="../frontend/usuario.html" class="nav-link">
-                    <i class="fas fa-users fa-3x"></i>
-                    <span class="link-text">Usuários</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="../backend/logout.php" class="nav-link">
-                    <i class="fas fa-sign-out-alt fa-3x"></i>
-                    <span class="link-text">Logout</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-
-    <main>
-        <div class="download">
-            <div class="box-container">
-                <div class="box">
-                    <h2>Treinos Cadastrados</h2>
-                    <div id="treino-cards">
-                        <!-- Lista de treinos em formato de cards será inserida aqui -->
-                    </div>
-                </div>
-            </div>
+  <main>
+    <div class="download">
+      <div class="box-container">
+        <div class="box">
+          <h2>Treinos Cadastrados</h2>
+          <div id="treino-cards"></div>
         </div>
-    </main>
+      </div>
+    </div>
+  </main>
 
-    <script>
-        function loadTreinos() {
-            $.get('../backend/ver_treinos.php', function(data) {
-                var treinos = JSON.parse(data);
-                var treinoCards = $('#treino-cards');
-                treinoCards.empty();
+  <script>
+    const API = '/ngl/backend/ver_treinos.php';
 
-                // Organiza os treinos por grupo
-                var grupos = {};
-                treinos.forEach(function(treino) {
-                    if (!grupos[treino.grupo]) {
-                        grupos[treino.grupo] = [];
-                    }
-                    grupos[treino.grupo].push(treino);
-                });
-
-                // Renderiza os treinos agrupados
-                for (var grupo in grupos) {
-                    if (grupos.hasOwnProperty(grupo)) {
-                        treinoCards.append('<div class="group-title">GRUPO ' + grupo + '</div>');
-                        grupos[grupo].forEach(function(treino) {
-                            var estadoClass = treino.estado === 'ativo' ? 'active' : '';
-                            treinoCards.append(
-                                '<div class="treino-card ' + estadoClass + '" data-id="' + treino.id + '" onclick="toggleColor(this)">' +
-                                '<div><span class="parte">Parte:</span> ' + treino.parte + '</div>' +
-                                '<div><span class="nome">Nome:</span> ' + treino.nome + '</div>' +
-                                '<div><span class="series">Séries:</span> ' + treino.series + '</div>' +
-                                '<div><span class="repeticao">Repetições:</span> ' + treino.repeticao + '</div>' +
-                                '<div><span class="observacao">Observação:</span> ' + treino.observacao + '</div>' +
-                                '</div>'
-                            );
-                        });
-                    }
-                }
-            });
-        }
-
-        function toggleColor(element) {
-            var id_treino = $(element).data('id');
-            var estado = element.classList.contains('active') ? 'normal' : 'ativo';
-
-            // Atualiza a classe do elemento imediatamente
-            if (estado === 'ativo') {
-                element.classList.add('active');
-            } else {
-                element.classList.remove('active');
-            }
-
-            $.post('../backend/ver_treinos.php', {
-                action: 'toggle',
-                id_treino: id_treino,
-                estado: estado
-            }, function(response) {
-                var result = JSON.parse(response);
-                if (result.status !== 'success') {
-                    // Reverte a mudança de classe se a atualização falhar
-                    if (estado === 'ativo') {
-                        element.classList.remove('active');
-                    } else {
-                        element.classList.add('active');
-                    }
-                    console.error('Erro ao atualizar estado do treino:', result.message);
-                }
-            });
-        }
-
-        $(document).ready(function() {
-            loadTreinos();
-            checkUserStatus();
+    function loadTreinos(){
+      $.ajax({
+        url: API,
+        method: 'GET',
+        dataType: 'json'
+      })
+      .done(function(treinos){
+        const cards = $('#treino-cards').empty();
+        const grupos = {};
+        (treinos || []).forEach(t => {
+          if(!grupos[t.grupo]) grupos[t.grupo] = [];
+          grupos[t.grupo].push(t);
         });
-    </script>
+
+        Object.keys(grupos).sort().forEach(grupo=>{
+          cards.append('<div class="group-title">GRUPO '+ grupo +'</div>');
+          grupos[grupo].forEach(t=>{
+            const ativo = (t.estado === 'ativo') ? 'active' : '';
+            cards.append(
+              '<div class="treino-card '+ativo+'" data-id="'+t.id+'" onclick="toggleColor(this)">'+
+                '<div><span class="parte">Parte:</span> '+ (t.parte||'') +'</div>'+
+                '<div><span class="nome">Nome:</span> '+ (t.nome||'') +'</div>'+
+                '<div><span class="series">Séries:</span> '+ (t.series||'') +'</div>'+
+                '<div><span class="repeticao">Repetições:</span> '+ (t.repeticao||'') +'</div>'+
+                '<div><span class="observacao">Observação:</span> '+ (t.observacao||'') +'</div>'+
+              '</div>'
+            );
+          });
+        });
+
+        if(Object.keys(grupos).length === 0){
+          cards.html('<div style="padding:.8rem;background:#1e1e1e;border:1px solid #333;border-radius:.5rem;color:#bbb">Nenhum treino cadastrado.</div>');
+        }
+      })
+      .fail(function(xhr){
+        if (xhr.status === 401) location.href = '/ngl/frontend/login.html';
+        else alert('Erro ao listar treinos ('+xhr.status+').');
+      });
+    }
+
+    function toggleColor(el){
+      const id = $(el).data('id');
+      const estado = el.classList.contains('active') ? 'normal' : 'ativo';
+
+      // feedback imediato
+      if (estado === 'ativo') el.classList.add('active'); else el.classList.remove('active');
+
+      $.ajax({
+        url: API,
+        method: 'POST',
+        dataType: 'json',
+        data: { action:'toggle', id_treino:id, estado:estado }
+      })
+      .done(function(resp){
+        if (!resp || resp.status !== 'success') {
+          // reverte se falhar
+          if (estado === 'ativo') el.classList.remove('active'); else el.classList.add('active');
+          console.error('Erro ao atualizar estado:', resp && resp.message);
+        }
+      })
+      .fail(function(xhr){
+        // reverte no erro
+        if (estado === 'ativo') el.classList.remove('active'); else el.classList.add('active');
+        if (xhr.status === 401) location.href = '/ngl/frontend/login.html';
+        else alert('Erro ao atualizar estado ('+xhr.status+').');
+      });
+    }
+
+    $(function(){
+      if (typeof checkUserStatus === 'function') checkUserStatus(false, loadTreinos);
+      else loadTreinos();
+    });
+  </script>
 </body>
 </html>

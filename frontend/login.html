@@ -1,75 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <script src="../js/session.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            checkUserStatus(false); // Não redirecionar ao verificar status na página de login
-        });
-    </script>
-    <style>
-        .error-message {
-            display: none; /* Oculta a mensagem por padrão */
-            color: #0c5460; /* Azul escuro */
-            background-color: #d1ecf1; /* Azul claro */
-            border: 1px solid #bee5eb; /* Azul claro para a borda */
-            border-radius: 5px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 10px;
-            margin-top: 10px;
-            max-width: 300px;
-            margin: 10px auto; /* Centraliza a mensagem */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/ngl/css/styles.css">
+  <style>
+    body { display:flex; justify-content:center; align-items:center; height:100vh; background:#f5f5f5; }
+    .login-box { background:#fff; padding:2rem; border-radius:.6rem; box-shadow:0 6px 18px rgba(0,0,0,.2); width:320px; text-align:center; }
+    .login-box h2 { margin-bottom:1rem; }
+    .login-box input { width:100%; padding:.55rem .7rem; margin:.5rem 0; border:1px solid #ccc; border-radius:.4rem; }
+    .login-box button { width:100%; background:#2f7dff; color:#fff; padding:.6rem; border:0; border-radius:.4rem; cursor:pointer; }
+    .login-box button:hover { filter:brightness(1.05); }
+    .error-message { display:none; color:#0c5460; background:#d1ecf1; border:1px solid #bee5eb; border-radius:5px; text-align:center; font-weight:600; padding:10px; margin:10px auto 0; max-width:300px; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="login-box">
-            <h2>Login</h2>
-            <form action="../backend/login.php" method="POST">
-                <div class="user-box">
-                    <label for="usuario">Usuário:</label><br>
-                    <input type="text" id="usuario" name="username" required>
-                </div>
-                <div class="user-box">
-                    <label for="senha">Senha:</label><br>
-                    <input type="password" id="senha" name="senha" required>
-                </div>
-                <input type="hidden" id="theme" name="theme" value="light">
-                <button type="submit">Login</button>
-                <p id="error-message" class="error-message"></p>
-            </form>
-        </div>
-    </div>
-    <script>
-        function getParameterByName(name) {
-            const url = window.location.href;
-            name = name.replace(/[\[\]]/g, '\\$&');
-            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-            const results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
+  <div class="login-box">
+    <h2>Login</h2>
 
-        window.onload = function() {
-            const errorMessage = getParameterByName('error');
-            if (errorMessage) {
-                const errorElement = document.getElementById('error-message');
-                errorElement.innerText = errorMessage;
-                errorElement.style.display = 'block'; // Mostra a mensagem de erro
-            }
-            const username = getParameterByName('username');
-            if (username) {
-                document.getElementById('usuario').value = username;
-            }
-        };
-    </script>
+    <form action="/ngl/backend/login.php" method="POST">
+      <div class="user-box">
+        <label for="usuario">Usuário:</label><br>
+        <input type="text" id="usuario" name="username" required>
+      </div>
+      <div class="user-box">
+        <label for="senha">Senha:</label><br>
+        <input type="password" id="senha" name="senha" required>
+      </div>
+      <input type="hidden" id="theme" name="theme" value="light">
+      <button type="submit">Login</button>
+      <p id="error-message" class="error-message"></p>
+    </form>
+  </div>
+
+  <script>
+    // Mostra erro e repovoa usuário se vierem na URL
+    function qp(n){const p=new URLSearchParams(location.search);return p.get(n);}
+    window.addEventListener('DOMContentLoaded',()=>{
+      const err = qp('error'); if(err){ const el=document.getElementById('error-message'); el.textContent=decodeURIComponent(err); el.style.display='block'; }
+      const u = qp('username'); if(u){ document.getElementById('usuario').value = u; }
+    });
+  </script>
 </body>
 </html>

@@ -1,13 +1,10 @@
 <?php
-session_start();
+// C:\xampp\htdocs\ngl\backend\session_status.php
+require __DIR__ . '/bootstrap_session.php';
+header('Content-Type: application/json; charset=utf-8');
 
-$response = array('is_logged_in' => false);
-
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    $response['is_logged_in'] = true;
-    $response['username'] = $_SESSION['username'];
-    $response['userid'] = $_SESSION['userid'];
-}
-
-echo json_encode($response);
-?>
+echo json_encode([
+  'is_logged_in' => isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true,
+  'username'     => $_SESSION['username'] ?? null,
+  'userid'       => $_SESSION['userid']   ?? null,
+], JSON_UNESCAPED_UNICODE);
